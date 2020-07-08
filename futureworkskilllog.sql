@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2020 at 03:16 AM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.8
+-- Generation Time: Jul 08, 2020 at 11:45 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,270 +24,296 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course`
+-- Table structure for table `courses`
 --
 
-CREATE TABLE `course` (
-  `Course_Code` int(100) NOT NULL,
-  `Course_Process` varchar(255) NOT NULL,
-  `Course_Content` varchar(255) NOT NULL,
-  `Course_Assesment` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `courses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` int(11) NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assessment` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`id`, `name`, `code`, `text`, `assessment`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Project 2', 3209, '<section class=\"study-area-bg-extra-light description\">\r\n<div class=\"container study-area-fg\">\r\n<p class=\"lead\">This is one of two IT capstone project courses. In this second project course, students will work together in teams to execute, monitor and document an IT industry project, following the plan created in ITECH3208 Project 1.</p>\r\n</div>\r\n</section>\r\n<section class=\"detail study-area-bg\">\r\n<div class=\"container\">\r\n<div class=\"row\"></div>\r\n</div>\r\n</section>', 'Core Subject', 1, NULL, '2020-07-08 17:30:47', '2020-07-08 17:30:47');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `learning_journal`
+-- Table structure for table `jernal_sends`
 --
 
-CREATE TABLE `learning_journal` (
-  `Jounal_ID` int(100) NOT NULL,
-  `Journal_Name` varchar(255) NOT NULL,
-  `Journal_Content` varchar(255) NOT NULL,
-  `STU_ID` int(100) NOT NULL,
-  `Course_Code` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `jernal_sends` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL COMMENT 'user_id=student_id',
+  `jernal_id` int(11) NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '0=pending and 1=approved',
+  `mark` int(11) NOT NULL DEFAULT 0,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `jernal_sends`
+--
+
+INSERT INTO `jernal_sends` (`id`, `user_id`, `jernal_id`, `description`, `status`, `mark`, `image`, `file`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 6, 1, 'Hi Guys, following files is my complete work to demonstration. Thanks.', 1, 0, '36127.png', '1594244123.pdf', NULL, '2020-07-08 17:35:23', '2020-07-08 17:35:43');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login_details`
+-- Table structure for table `learningjernals`
 --
 
-CREATE TABLE `login_details` (
-  `STU_ID` int(100) NOT NULL,
-  `STA_ID` int(100) NOT NULL,
-  `Password` text NOT NULL,
-  `Username` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `learningjernals` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `jernal_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jernal_content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `learningjernals`
+--
+
+INSERT INTO `learningjernals` (`id`, `user_id`, `course_id`, `jernal_name`, `jernal_content`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Project 2 work completion', 'Coding, Work Experience, Client Satisfaction', NULL, '2020-07-08 17:32:07', '2020-07-08 17:32:07');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `process`
+-- Table structure for table `migrations`
 --
 
-CREATE TABLE `process` (
-  `Process_StartDate` date NOT NULL,
-  `Process_EndDate` date NOT NULL,
-  `Course_Code` int(100) NOT NULL,
-  `Course_Process` varchar(255) NOT NULL,
-  `STU_ID` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2020_07_01_163447_create_roles_table', 1),
+(4, '2020_07_01_210753_create_schools_table', 1),
+(5, '2020_07_02_022329_create_courses_table', 1),
+(6, '2020_07_02_221233_create_learningjernals_table', 1),
+(7, '2020_07_06_173458_create_jernal_sends_table', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `report`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE `report` (
-  `Report_ID` int(100) NOT NULL,
-  `Report_Name` text NOT NULL,
-  `Report_Content` text NOT NULL,
-  `Report_Picture` text NOT NULL,
-  `Report_Comment` text NOT NULL,
-  `STU_ID` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `school`
+-- Table structure for table `roles`
 --
 
-CREATE TABLE `school` (
-  `School_Name` varchar(100) NOT NULL,
-  `STU_ID` int(100) NOT NULL,
-  `STA_ID` int(100) NOT NULL,
-  `Course_Code` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `role_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `status`, `role_name`, `slug`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Admin', 'admin123456', NULL, NULL),
+(2, 1, 'student', 'student123456', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Table structure for table `schools`
 --
 
-CREATE TABLE `staff` (
-  `STA_ID` int(100) NOT NULL,
-  `Username` varchar(255) NOT NULL,
-  `Password` text NOT NULL,
-  `STA_Fname` text NOT NULL,
-  `STA_LName` text NOT NULL,
-  `STA_Email` varchar(255) NOT NULL,
-  `STA_Address` varchar(255) NOT NULL,
-  `STA_ContactNo` int(100) NOT NULL,
-  `School_Name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `schools` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `schools`
+--
+
+INSERT INTO `schools` (`id`, `name`, `user_id`, `course_id`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Ballarat Tech School', 1, 1, 1, NULL, '2020-07-08 17:40:49', '2020-07-08 17:40:49');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `student` (
-  `STU_ID` int(100) NOT NULL,
-  `Username` varchar(255) NOT NULL,
-  `Password` text NOT NULL,
-  `STU_FName` text NOT NULL,
-  `STU_LName` text NOT NULL,
-  `STU_Email` varchar(255) NOT NULL,
-  `STU_BirthDate` date NOT NULL,
-  `STU_Address` varchar(255) NOT NULL,
-  `School_Name` varchar(100) NOT NULL,
-  `Report_ID` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `username` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` int(11) DEFAULT NULL,
+  `address` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `role_id`, `email`, `phone`, `email_verified_at`, `password`, `status`, `username`, `slug`, `code`, `address`, `image`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'RIASAD HADI HOSSAIN', 1, '30336250@students.federation.edu.au', '+61449843880', NULL, '$2y$10$giRLMD//tbVuCL1h/bFHqeh.DlNjESlVgtIdEu5EsRO2sT2pixIGO', 1, NULL, '105f063711c475c', NULL, NULL, '73720.jpg', NULL, NULL, NULL, '2020-07-08 17:13:55'),
+(6, 'Kathleen Keogh', 2, 'kathleen@federation.edu.au', '+6104445261', NULL, '$2y$10$JluWCzIwpxg93XaHg7v0uuHLM1tzIS2gDx3CyKuP0ZY6a2bYPmdGC', 1, 'Kathleen', '105f0638b0ceecd', 7405, 'Mount Helen', '80027.jpg', NULL, NULL, '2020-07-08 17:20:49', '2020-07-08 17:21:24');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `course`
+-- Indexes for table `courses`
 --
-ALTER TABLE `course`
-  ADD PRIMARY KEY (`Course_Code`,`Course_Process`);
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `learning_journal`
+-- Indexes for table `jernal_sends`
 --
-ALTER TABLE `learning_journal`
-  ADD PRIMARY KEY (`Jounal_ID`),
-  ADD KEY `Course_Code` (`Course_Code`),
-  ADD KEY `STU_ID` (`STU_ID`);
+ALTER TABLE `jernal_sends`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `login_details`
+-- Indexes for table `learningjernals`
 --
-ALTER TABLE `login_details`
-  ADD KEY `STA_ID` (`STA_ID`),
-  ADD KEY `STU_ID` (`STU_ID`);
+ALTER TABLE `learningjernals`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `process`
+-- Indexes for table `migrations`
 --
-ALTER TABLE `process`
-  ADD KEY `STU_ID` (`STU_ID`),
-  ADD KEY `Course_Code` (`Course_Code`);
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `report`
+-- Indexes for table `password_resets`
 --
-ALTER TABLE `report`
-  ADD PRIMARY KEY (`Report_ID`),
-  ADD KEY `STU_ID` (`STU_ID`);
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `school`
+-- Indexes for table `roles`
 --
-ALTER TABLE `school`
-  ADD PRIMARY KEY (`School_Name`),
-  ADD KEY `STA_ID` (`STA_ID`),
-  ADD KEY `STU_ID` (`STU_ID`),
-  ADD KEY `Course_Code` (`Course_Code`);
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `staff`
+-- Indexes for table `schools`
 --
-ALTER TABLE `staff`
-  ADD PRIMARY KEY (`STA_ID`),
-  ADD KEY `School_Name` (`School_Name`);
+ALTER TABLE `schools`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `student`
+-- Indexes for table `users`
 --
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`STU_ID`),
-  ADD KEY `Report_ID` (`Report_ID`),
-  ADD KEY `School_Name` (`School_Name`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_phone_unique` (`phone`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `course`
+-- AUTO_INCREMENT for table `courses`
 --
-ALTER TABLE `course`
-  MODIFY `Course_Code` int(100) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `courses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `learning_journal`
+-- AUTO_INCREMENT for table `jernal_sends`
 --
-ALTER TABLE `learning_journal`
-  MODIFY `Jounal_ID` int(100) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `jernal_sends`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `report`
+-- AUTO_INCREMENT for table `learningjernals`
 --
-ALTER TABLE `report`
-  MODIFY `Report_ID` int(100) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `learningjernals`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `staff`
+-- AUTO_INCREMENT for table `migrations`
 --
-ALTER TABLE `staff`
-  MODIFY `STA_ID` int(100) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `student`
+-- AUTO_INCREMENT for table `roles`
 --
-ALTER TABLE `student`
-  MODIFY `STU_ID` int(100) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `schools`
 --
+ALTER TABLE `schools`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Constraints for table `learning_journal`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `learning_journal`
-  ADD CONSTRAINT `learning_journal_ibfk_1` FOREIGN KEY (`Course_Code`) REFERENCES `course` (`Course_Code`),
-  ADD CONSTRAINT `learning_journal_ibfk_2` FOREIGN KEY (`STU_ID`) REFERENCES `student` (`STU_ID`);
-
---
--- Constraints for table `login_details`
---
-ALTER TABLE `login_details`
-  ADD CONSTRAINT `login_details_ibfk_1` FOREIGN KEY (`STA_ID`) REFERENCES `staff` (`STA_ID`),
-  ADD CONSTRAINT `login_details_ibfk_2` FOREIGN KEY (`STU_ID`) REFERENCES `student` (`STU_ID`);
-
---
--- Constraints for table `process`
---
-ALTER TABLE `process`
-  ADD CONSTRAINT `process_ibfk_1` FOREIGN KEY (`STU_ID`) REFERENCES `student` (`STU_ID`),
-  ADD CONSTRAINT `process_ibfk_2` FOREIGN KEY (`Course_Code`) REFERENCES `course` (`Course_Code`);
-
---
--- Constraints for table `report`
---
-ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`STU_ID`) REFERENCES `student` (`STU_ID`);
-
---
--- Constraints for table `school`
---
-ALTER TABLE `school`
-  ADD CONSTRAINT `school_ibfk_1` FOREIGN KEY (`STA_ID`) REFERENCES `staff` (`STA_ID`),
-  ADD CONSTRAINT `school_ibfk_2` FOREIGN KEY (`STU_ID`) REFERENCES `student` (`STU_ID`),
-  ADD CONSTRAINT `school_ibfk_3` FOREIGN KEY (`Course_Code`) REFERENCES `course` (`Course_Code`);
-
---
--- Constraints for table `staff`
---
-ALTER TABLE `staff`
-  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`School_Name`) REFERENCES `school` (`School_Name`);
-
---
--- Constraints for table `student`
---
-ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`Report_ID`) REFERENCES `report` (`Report_ID`),
-  ADD CONSTRAINT `student_ibfk_2` FOREIGN KEY (`School_Name`) REFERENCES `school` (`School_Name`);
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
